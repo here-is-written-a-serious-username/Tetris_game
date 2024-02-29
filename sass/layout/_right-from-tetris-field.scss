@@ -1,0 +1,127 @@
+.right-side-wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.game-info {
+    border: 6px solid rgb(155, 26, 241);
+    border-radius: 28px;
+    padding: 2vw 4vw;
+    margin-bottom: 4vh;
+}
+
+.game-info p {
+    width: max-content;
+    font-family: Arial;
+    color: rgb(105, 213, 31);
+
+    @media screen and (max-width: 479px) {
+        font-size: 20px;
+    }
+
+    @media screen and (min-width: 480px) and (max-width: 767px) {
+        font-size: 24px;
+    }
+
+    @media screen and (min-width: 768px) and (max-width: 1199px) {
+        font-size: 28px;
+    }
+
+    @media screen and (min-width: 1200px) {
+        font-size: 32px;
+    }
+}
+
+
+
+.game-level {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 4vh;
+}
+
+.button-level+.button-level {
+    margin-top: 2vh;
+}
+
+.btn-level-easy {
+    background-color: rgb(105, 213, 31);
+}
+
+.btn-level-medium {
+    background-color: rgb(251, 194, 16);
+}
+
+.btn-level-hard {
+    background-color: rgb(252, 69, 61);
+}
+
+
+
+.game-state {
+    margin-bottom: 4vh;
+    flex: 1 1 auto;
+}
+
+.button-state {
+    width: 100%;
+
+    &+& {
+        margin-top: 2vh;
+    }
+}
+
+.btn-level-start {
+    background-color: rgb(240, 50, 180);
+}
+
+.btn-level-restart {
+    background: rgb(116, 25, 235);
+}
+
+
+
+// .game-control {
+
+// }
+
+.btn-control-rotate {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2vh;
+    width: 50%;
+}
+
+.control__l-r-d-wrap {
+    display: flex;
+    justify-content: center;
+    gap: 1vh;
+    margin-bottom: 2vh;
+
+    .button-control {
+        width: calc((100% - 2vh)/3);
+    }
+}
+
+.btn-control-rotate {
+    background-color: rgb(42, 141, 234);
+}
+
+.btn-control-left {
+    background-color: rgb(251, 194, 16);
+}
+
+.btn-control-down {
+    background-color: rgb(105, 213, 31);
+}
+
+.btn-control-right {
+    background-color: rgb(251, 194, 16);
+}
+
+.btn-control-drop-down {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    background-color: rgb(241, 130, 26);
+}

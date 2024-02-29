@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./css/main.min.css">
+
+    <title>Tetris_game</title>
+</head>
+
+<body>
+
+    <div class="wrap">
+        <div class="left-side-wrap">
+            <img class="logo" src="./img/tetris_logo-3.png" alt="logo tetris">
+        </div>
+
+        <div class="tetris-field">
+        </div>
+
+        <div class="right-side-wrap">
+            <div class="game-info">
+                <p class="score">Score: <span class="score-value">0</span></p>
+            </div>
+
+            <div class="game-level">
+                <button type="button" class="button button-level btn-level-easy">Easy</button>
+                <button type="button" class="button button-level btn-level-medium">Medium</button>
+                <button type="button" class="button button-level btn-level-hard">Hard</button>
+            </div>
+
+            <div class="game-state">
+                <button type="button" class="button button-state btn-level-start">Start/Pause</button>
+                <button type="button" class="button button-state btn-level-restart">Restart</button>
+            </div>
+
+            <div class="game-control">
+                <button type="button" class="button button-control btn-control-rotate">Rotate</button>
+                <div class="control__l-r-d-wrap">
+                    <button type="button" class="button button-control btn-control-left">Left</button>
+                    <button type="button" class="button button-control btn-control-down">Down</button>
+                    <button type="button" class="button button-control btn-control-right">Right</button>
+                </div>
+                <button type="button" class="button button-control btn-control-drop-down">Drop down</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./js/script.js"></script>
+</body>
+
+</html>

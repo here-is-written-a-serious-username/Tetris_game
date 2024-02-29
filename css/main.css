@@ -1,0 +1,230 @@
+* {
+  margin: 0;
+}
+
+body {
+  height: 100vh;
+  position: relative;
+  background-color: rgb(39, 47, 50);
+  background-image: url("../img/background.jpg");
+  background-position: left bottom;
+  background-repeat: repeat-x;
+  background-size: contain;
+}
+
+.wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  /* width: 100%; */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  /* justify-content: space-between; */
+  gap: 4vw;
+}
+
+.button {
+  display: block;
+  padding: 2vh 4vh;
+  cursor: pointer;
+  border: none;
+  border-radius: 24px;
+}
+
+.logo {
+  width: 18vw;
+}
+
+.tetris-field {
+  background: rgb(8, 8, 88);
+  padding: 0.5vh;
+  display: grid;
+  grid-template-columns: repeat(10, auto);
+  gap: 0.5vh;
+}
+
+.tetris-field > div {
+  height: min(4vh, 7vw);
+  width: min(4vh, 7vw);
+  background-color: rgba(182, 166, 166, 0.2);
+  border-radius: 0.3vh;
+}
+
+.tetris-field .I,
+.tetris-field .shortStick,
+.tetris-field .middleStick {
+  background-color: rgb(42, 141, 234);
+}
+
+.tetris-field .dot,
+.tetris-field .plus {
+  background-color: rgb(116, 25, 235);
+}
+
+.tetris-field .O,
+.tetris-field .U {
+  background-color: rgb(241, 130, 26);
+}
+
+.tetris-field .Z,
+.tetris-field .ZZ {
+  background-color: rgb(251, 194, 16);
+}
+
+.tetris-field .S,
+.tetris-field .SS {
+  background-color: rgb(240, 50, 180);
+}
+
+.tetris-field .T {
+  background-color: rgb(237, 237, 237);
+}
+
+.tetris-field .J {
+  background-color: rgb(252, 69, 61);
+}
+
+.tetris-field .L {
+  background-color: rgb(105, 213, 31);
+}
+
+.right-side-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.game-info {
+  border: 6px solid rgb(155, 26, 241);
+  border-radius: 28px;
+  padding: 2vw 4vw;
+  margin-bottom: 4vh;
+}
+
+.game-info p {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  font-family: Arial;
+  color: rgb(105, 213, 31);
+}
+@media screen and (max-width: 479px) {
+  .game-info p {
+    font-size: 20px;
+  }
+}
+@media screen and (min-width: 480px) and (max-width: 767px) {
+  .game-info p {
+    font-size: 24px;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1199px) {
+  .game-info p {
+    font-size: 28px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .game-info p {
+    font-size: 32px;
+  }
+}
+
+.game-level {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-bottom: 4vh;
+}
+
+.button-level + .button-level {
+  margin-top: 2vh;
+}
+
+.btn-level-easy {
+  background-color: rgb(105, 213, 31);
+}
+
+.btn-level-medium {
+  background-color: rgb(251, 194, 16);
+}
+
+.btn-level-hard {
+  background-color: rgb(252, 69, 61);
+}
+
+.game-state {
+  margin-bottom: 4vh;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+}
+
+.button-state {
+  width: 100%;
+}
+.button-state + .button-state {
+  margin-top: 2vh;
+}
+
+.btn-level-start {
+  background-color: rgb(240, 50, 180);
+}
+
+.btn-level-restart {
+  background: rgb(116, 25, 235);
+}
+
+.btn-control-rotate {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2vh;
+  width: 50%;
+}
+
+.control__l-r-d-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 1vh;
+  margin-bottom: 2vh;
+}
+.control__l-r-d-wrap .button-control {
+  width: calc((100% - 2vh) / 3);
+}
+
+.btn-control-rotate {
+  background-color: rgb(42, 141, 234);
+}
+
+.btn-control-left {
+  background-color: rgb(251, 194, 16);
+}
+
+.btn-control-down {
+  background-color: rgb(105, 213, 31);
+}
+
+.btn-control-right {
+  background-color: rgb(251, 194, 16);
+}
+
+.btn-control-drop-down {
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  background-color: rgb(241, 130, 26);
+}/*# sourceMappingURL=main.css.map */

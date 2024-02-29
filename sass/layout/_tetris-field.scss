@@ -1,0 +1,52 @@
+.tetris-field {
+    background: rgb(8, 8, 88);
+    padding: 0.5vh;
+    display: grid;
+    grid-template-columns: repeat(10, auto);
+    gap: 0.5vh;
+}
+
+.tetris-field>div {
+    height: min(4vh, 7vw);
+    width: min(4vh, 7vw);
+    background-color: rgba(182, 166, 166, 0.2);
+    border-radius: 0.3vh;
+}
+
+.tetris-field .I,
+.tetris-field .shortStick,
+.tetris-field .middleStick {
+    background-color: rgb(42, 141, 234);
+}
+
+.tetris-field .dot,
+.tetris-field .plus {
+    background-color: rgb(116, 25, 235);
+}
+
+.tetris-field .O,
+.tetris-field .U {
+    background-color: rgb(241, 130, 26);
+}
+
+.tetris-field .Z,
+.tetris-field .ZZ {
+    background-color: rgb(251, 194, 16);
+}
+
+.tetris-field .S,
+.tetris-field .SS {
+    background-color: rgb(240, 50, 180);
+}
+
+.tetris-field .T {
+    background-color: rgb(237, 237, 237);
+}
+
+.tetris-field .J {
+    background-color: rgb(252, 69, 61);
+}
+
+.tetris-field .L {
+    background-color: rgb(105, 213, 31);
+}
