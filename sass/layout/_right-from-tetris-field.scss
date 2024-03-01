@@ -44,15 +44,15 @@
     margin-top: 2vh;
 }
 
-.btn-level-easy {
+.btn-easy {
     background-color: rgb(105, 213, 31);
 }
 
-.btn-level-medium {
+.btn-medium {
     background-color: rgb(251, 194, 16);
 }
 
-.btn-level-hard {
+.btn-hard {
     background-color: rgb(252, 69, 61);
 }
 
@@ -63,7 +63,7 @@
     flex: 1 1 auto;
 }
 
-.button-state {
+.button-game-state {
     width: 100%;
 
     &+& {
@@ -71,11 +71,11 @@
     }
 }
 
-.btn-level-start {
+.btn-start {
     background-color: rgb(240, 50, 180);
 }
 
-.btn-level-restart {
+.btn-restart {
     background: rgb(116, 25, 235);
 }
 
@@ -85,7 +85,7 @@
 
 // }
 
-.btn-control-rotate {
+.btn-rotate {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 2vh;
@@ -103,23 +103,23 @@
     }
 }
 
-.btn-control-rotate {
+.btn-rotate {
     background-color: rgb(42, 141, 234);
 }
 
-.btn-control-left {
+.btn-left {
     background-color: rgb(251, 194, 16);
 }
 
-.btn-control-down {
+.btn-down {
     background-color: rgb(105, 213, 31);
 }
 
-.btn-control-right {
+.btn-right {
     background-color: rgb(251, 194, 16);
 }
 
-.btn-control-drop-down {
+.btn-drop-down {
     margin-left: auto;
     margin-right: auto;
     width: 50%;
