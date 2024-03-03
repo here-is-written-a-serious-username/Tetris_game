@@ -1,0 +1,25 @@
+.logo {
+    width: 18vw;
+    margin-bottom: 8vh;
+}
+
+.game-level {
+    display: flex;
+    flex-direction: column;
+}
+
+.button-level+.button-level {
+    margin-top: 2vh;
+}
+
+.btn-easy {
+    background-color: rgb(105, 213, 31);
+}
+
+.btn-medium {
+    background-color: rgb(251, 194, 16);
+}
+
+.btn-hard {
+    background-color: rgb(252, 69, 61);
+}

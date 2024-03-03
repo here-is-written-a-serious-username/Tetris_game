@@ -1,0 +1,115 @@
+dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 22vw;
+    background-color: rgb(39, 47, 50);
+    animation: fade-out 0.7s ease-out;
+    user-select: none;
+}
+
+dialog[open] {
+    animation: fade-in 0.7s ease-out;
+}
+
+dialog[open]::backdrop {
+    background: rgba(0, 0, 0, 0.5) !important;
+    animation: backdrop-fade-in 0.7s ease-out forwards;
+}
+
+
+.modal-pause__cont,
+.modal-game-over__cont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-pause__title,
+.modal-game-over__title {
+    font-size: 30px;
+    margin-bottom: 4vh;
+}
+
+.modal-pause__title {
+    color: rgb(105, 213, 31);
+}
+
+.modal-game-over__title {
+    color: rgb(252, 69, 61);
+}
+
+.modal-game-over__result,
+.modal-game-over__best-result {
+    color: rgb(105, 213, 31);
+}
+
+.modal-game-over__result {
+    margin-bottom: 2vh;
+}
+
+.modal-game-over__best-result {
+    margin-bottom: 4vh;
+}
+
+.modal-pause__img {
+    width: 80px;
+    margin-bottom: 2vh;
+}
+
+.modal-pause__continue-btn {
+    background-color: rgb(105, 213, 31);
+}
+
+.modal-game-over__restart-btn {
+    background-color: rgb(241, 130, 26);
+}
+
+
+
+
+/* Animation keyframes */
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+        transform: scaleY(0), translate(-50%, -50%);
+        display: none;
+    }
+
+    100% {
+        opacity: 1;
+        transform: scaleY(1), translate(-50%, -50%);
+        display: block;
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+        transform: scaleY(1), translate(-50%, -50%);
+        display: block;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scaleY(0), translate(-50%, -50%);
+        display: none;
+    }
+}
+
+@keyframes backdrop-fade-in {
+    0% {
+        background-color: rgb(0 0 0 / 0%);
+    }
+
+    100% {
+        background-color: rgb(0 0 0 / 25%);
+    }
+}
+
+body,
+button {
+    font-family: system-ui;
+}

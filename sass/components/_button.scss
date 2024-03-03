@@ -4,4 +4,13 @@
     cursor: pointer;
     border: none;
     border-radius: 24px;
+    transition: box-shadow 0.3s ease;
+}
+
+.button:hover {
+    box-shadow: 0 0 12px rgba(237, 237, 237, 0.8);
+}
+
+.active {
+    box-shadow: 0 0 12px rgba(237, 237, 237, 0.8);
 }

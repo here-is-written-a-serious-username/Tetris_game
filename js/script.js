@@ -1,4 +1,7 @@
-import { PLAYFIELD_COLUMNS, PLAYFIELD_ROWS, TETROMINOES_NAMES_LIGHT, TETROMINOES_NAMES_MEDIUM, TETROMINOES_NAMES_HARD, TETROMINOES_LIGHT, TETROMINOES_MEDIUM, TETROMINOES_HARD } from "./constans.js"
+import {
+    PLAYFIELD_COLUMNS, PLAYFIELD_ROWS, TETROMINOES_NAMES_LIGHT, TETROMINOES_NAMES_MEDIUM, TETROMINOES_NAMES_HARD,
+    TETROMINOES_LIGHT, TETROMINOES_MEDIUM, TETROMINOES_HARD,
+} from "./constans.js"
 
 let TETROMINO_NAMES = TETROMINOES_NAMES_MEDIUM;
 let TETROMINOES = TETROMINOES_MEDIUM;
@@ -9,11 +12,25 @@ let timedId = null;
 let isGameOver = false;
 let isPaused = false;
 let cells;
+const BEST_RESULT_KEY = 'BestResult';
+let bestResult;
 
-const scoreEl = document.querySelector('.score-value');
-const playFieldEl = document.querySelector('.tetris-field');
+
+const playFieldElem = document.querySelector('.tetris-field');
+const scoreElem = document.querySelector('.score-value');
+const bestResElem = document.querySelector('.best-result-value');
+const modalScoreElem = document.querySelector('.modal-game-over__result-value')
+const modalbestResElem = document.querySelector('.modal-game-over__best-result-value')
+
+const modalPause = document.getElementById("modal-pause");
+const continueBtn = document.querySelector(".modal-pause__continue-btn");
+
+const modalGameOver = document.getElementById("modal-game-over");
+const modalRestartBtn = document.querySelector(".modal-game-over__restart-btn");
 
 document.addEventListener('keydown', onKeyDown);
+continueBtn.addEventListener("click", onContinueBtnClick);
+modalRestartBtn.addEventListener("click", onModalRestartBtnClick);
 
 (() => {
     const btnLevelEl = document.querySelectorAll('.button-level');
@@ -22,6 +39,13 @@ document.addEventListener('keydown', onKeyDown);
 
     btnLevelEl.forEach(btn => {
         btn.addEventListener('click', onBtnLevelClick);
+        btn.addEventListener('click', function () {
+            // Знімаємо клас 'active' з усіх кнопок
+            btnLevelEl.forEach(btn => btn.classList.remove('active'));
+            // Додаємо клас 'active' тільки для поточної кнопки
+            this.classList.add('active');
+        });
+
     });
     btnGameStatelEl.forEach(btn => {
         btn.addEventListener('click', onBtnGameStateClick);
@@ -29,19 +53,18 @@ document.addEventListener('keydown', onKeyDown);
     btnControlEl.forEach(btn => {
         btn.addEventListener('click', onBtnControlClick);
     });
+
 })();
 
-MicroModal.init({
-    onClose: () => {
-        togglePauseGame();
-        console.log('modal ' + isPaused)
-    },
-});
+
 init();
-console.log(isPaused)
+
 function init() {
     score = 0;
-    scoreEl.innerHTML = 0;
+    scoreElem.innerHTML = 0;
+    getStoredData();
+    bestResElem.innerHTML = bestResult;
+
     isGameOver = false;
     generatePlayField();
     generateTetromino();
@@ -49,84 +72,14 @@ function init() {
     moveDown();
 };
 
-function onBtnLevelClick(event) {
-    const btn = event.currentTarget;
-    switch (true) {
-        case btn.classList.contains('btn-easy'):
-            TETROMINO_NAMES = [...TETROMINOES_NAMES_MEDIUM, ...TETROMINOES_NAMES_LIGHT];
-            TETROMINOES = { ...TETROMINOES_MEDIUM, ...TETROMINOES_LIGHT };
-            break;
-        case btn.classList.contains('btn-medium'):
-            TETROMINO_NAMES = TETROMINOES_NAMES_MEDIUM;
-            TETROMINOES = TETROMINOES_MEDIUM;
-            break;
-        case btn.classList.contains('btn-hard'):
-            TETROMINO_NAMES = [...TETROMINOES_NAMES_MEDIUM, ...TETROMINOES_NAMES_HARD];
-            TETROMINOES = { ...TETROMINOES_MEDIUM, ...TETROMINOES_HARD };
-            break;
-        default:
-            TETROMINO_NAMES = TETROMINOES_NAMES_MEDIUM;
-            TETROMINOES = TETROMINOES_MEDIUM;
-    };
-    // після зміни складності можна зробити restart
-    // onRestartClick();
-};
-
-function onBtnGameStateClick(event) {
-    const btn = event.currentTarget;
-    switch (true) {
-        case btn.classList.contains('btn-pause'):
-            togglePauseGame();
-            console.log(isPaused)
-            break;
-        case btn.classList.contains('btn-restart'):
-            onRestartClick();
-            break;
-    };
-};
-
-function onBtnControlClick(event) {
-    const btn = event.currentTarget;
-    if (!isPaused) {
-        switch (true) {
-            case btn.classList.contains('btn-rotate'):
-                rotate();
-                break;
-            case btn.classList.contains('btn-left'):
-                moveTetrominoLeft();
-                break;
-            case btn.classList.contains('btn-down'):
-                moveTetrominoDown();
-                break;
-            case btn.classList.contains('btn-right'):
-                moveTetrominoRight()
-                break;
-            case btn.classList.contains('btn-drop-down'):
-                dropTetrominoDown()
-                break;
-        }
-    };
-    draw();
-};
-
-
-
-function onRestartClick() {
-    playFieldEl.innerHTML = '';
-    // overlay.style.display = 'none';
-    init();
-}
-
-
-
 function convertPositionToIndex(row, column) {
     return row * PLAYFIELD_COLUMNS + column;
-}
+};
 
 function getRandomElement(array) {
     const randomIndex = Math.floor(Math.random() * array.length)
     return array[randomIndex];
-}
+};
 
 function countScore(destroyRows) {
     switch (destroyRows) {
@@ -143,13 +96,13 @@ function countScore(destroyRows) {
             score += 100;
             break;
     }
-    scoreEl.innerHTML = score;
+    scoreElem.innerHTML = score;
 };
-
+//створення ігрового поля фігури і розміщення
 function generatePlayField() {
     for (let i = 0; i < PLAYFIELD_ROWS * PLAYFIELD_COLUMNS; i++) {
         const div = document.createElement(`div`);
-        playFieldEl.append(div);
+        playFieldElem.append(div);
     }
     playfield = new Array(PLAYFIELD_ROWS).fill()
         .map(() => new Array(PLAYFIELD_COLUMNS).fill(0))
@@ -187,6 +140,7 @@ function placeTetromino() {
     countScore(filledRows.length);
 };
 
+// згорання ліній
 function removeFillRows(filledRows) {
     for (let i = 0; i < filledRows.length; i++) {
         const row = filledRows[i];
@@ -219,7 +173,7 @@ function findFilledRows() {
 };
 
 
-
+// малюємо поле
 function drawPlayField() {
     for (let row = 0; row < PLAYFIELD_ROWS; row++) {
         for (let column = 0; column < PLAYFIELD_COLUMNS; column++) {
@@ -231,7 +185,7 @@ function drawPlayField() {
         }
     }
 };
-
+// малюємо фігуру
 function drawTetromino() {
     const name = tetromino.name;
     const tetrominoMatrixSize = tetromino.matrix.length;
@@ -249,7 +203,7 @@ function drawTetromino() {
         }
     }
 }
-
+// перемальовка, виклик функцій drawPlayField і drawTetromino
 function draw() {
     cells.forEach(cell => cell.removeAttribute('class'));
     drawPlayField();
@@ -270,17 +224,18 @@ function rotate() {
     draw();
 }
 
-
 function onKeyDown(e) {
-    if (e.key == 'Escape' && !isPaused) {
+    if (e.code == 'KeyP' && !isPaused) {
         togglePauseGame();
-        console.log('pause ' + isPaused)
-        MicroModal.show('modal-pause');
-    } else if (e.key == 'Escape' && isPaused) {
+        modalPause.showModal();
+    } else if (e.code == 'KeyP' && isPaused || e.key == 'Escape' && isPaused) {
         togglePauseGame();
-        console.log('start ' + isPaused)
+        modalPause.close();
     }
-    if (!isPaused) {
+    if (e.key == 'Escape' && isGameOver) {
+        restartGame();
+    }
+    if (!isPaused && !isGameOver) {
         switch (e.key) {
             case ' ':
                 dropTetrominoDown();
@@ -313,6 +268,7 @@ function rotateMatrix(matrixTetromino) {
     }
     return rotateMatrix;
 };
+
 function moveTetrominoDown() {
     tetromino.row += 1;
     if (!isValid()) {
@@ -342,7 +298,6 @@ function moveTetrominoRight() {
     }
 };
 
-
 // automatic tetromino movement down
 function moveDown() {
     moveTetrominoDown();
@@ -356,8 +311,10 @@ function moveDown() {
 
 function gameOver() {
     stopLoop();
-    MicroModal.show('modal-game-over');
-    // overlay.style.display = 'flex';
+    modalScoreElem.innerHTML = score;
+    modalbestResElem.innerHTML = bestResult;
+    modalGameOver.showModal();
+    bestResultCounter();
 };
 
 function startLoop() {
@@ -381,6 +338,79 @@ function togglePauseGame() {
     isPaused = !isPaused;
 }
 
+function onBtnLevelClick(event) {
+    const btn = event.currentTarget;
+    switch (true) {
+        case btn.classList.contains('btn-easy'):
+            TETROMINO_NAMES = [...TETROMINOES_NAMES_MEDIUM, ...TETROMINOES_NAMES_LIGHT];
+            TETROMINOES = { ...TETROMINOES_MEDIUM, ...TETROMINOES_LIGHT };
+            break;
+        case btn.classList.contains('btn-medium'):
+            TETROMINO_NAMES = TETROMINOES_NAMES_MEDIUM;
+            TETROMINOES = TETROMINOES_MEDIUM;
+            break;
+        case btn.classList.contains('btn-hard'):
+            TETROMINO_NAMES = [...TETROMINOES_NAMES_MEDIUM, ...TETROMINOES_NAMES_HARD];
+            TETROMINOES = { ...TETROMINOES_MEDIUM, ...TETROMINOES_HARD };
+            break;
+        default:
+            TETROMINO_NAMES = TETROMINOES_NAMES_MEDIUM;
+            TETROMINOES = TETROMINOES_MEDIUM;
+    };
+    restartGame();
+};
+
+function onBtnGameStateClick(event) {
+    const btn = event.currentTarget;
+    switch (true) {
+        case btn.classList.contains('btn-pause'):
+            togglePauseGame();
+            modalPause.showModal();
+            break;
+        case btn.classList.contains('btn-restart'):
+            restartGame();
+            break;
+    };
+};
+
+function onBtnControlClick(event) {
+    const btn = event.currentTarget;
+    if (!isPaused) {
+        switch (true) {
+            case btn.classList.contains('btn-rotate'):
+                rotate();
+                break;
+            case btn.classList.contains('btn-left'):
+                moveTetrominoLeft();
+                break;
+            case btn.classList.contains('btn-down'):
+                moveTetrominoDown();
+                break;
+            case btn.classList.contains('btn-right'):
+                moveTetrominoRight()
+                break;
+            case btn.classList.contains('btn-drop-down'):
+                dropTetrominoDown()
+                break;
+        }
+    };
+    draw();
+};
+
+function onContinueBtnClick() {
+    modalPause.close();
+    togglePauseGame();
+}
+
+function onModalRestartBtnClick() {
+    modalGameOver.close();
+    restartGame();
+}
+
+function restartGame() {
+    playFieldElem.innerHTML = '';
+    init();
+};
 
 //  collision / exit outside the gameboard
 function isValid() {
@@ -412,3 +442,21 @@ function hasCollisions(row, column) {
     return tetromino.matrix[row][column]
         && playfield[tetromino.row + row]?.[tetromino.column + column];
 };
+
+// вираховування найкращого результату гри
+function bestResultCounter() {
+    if (score > bestResult) {
+        bestResult = score;
+        localStorage.setItem(BEST_RESULT_KEY, JSON.stringify(bestResult));
+    }
+}
+
+// отримуємо найкращий результат з local Storage
+function getStoredData() {
+    const storedData = JSON.parse(localStorage.getItem(BEST_RESULT_KEY));
+    if (storedData === null) {
+        bestResult = 0;
+    } else {
+        bestResult = storedData;
+    }
+}

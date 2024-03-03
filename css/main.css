@@ -1,4 +1,3 @@
-@charset "UTF-8";
 * {
   margin: 0;
 }
@@ -11,6 +10,10 @@ body {
   background-position: left bottom;
   background-repeat: repeat-x;
   background-size: contain;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 .wrap {
@@ -33,230 +36,216 @@ body {
   cursor: pointer;
   border: none;
   border-radius: 24px;
+  -webkit-transition: -webkit-box-shadow 0.3s ease;
+  transition: -webkit-box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, -webkit-box-shadow 0.3s ease;
+}
+
+.button:hover {
+  -webkit-box-shadow: 0 0 12px rgba(237, 237, 237, 0.8);
+          box-shadow: 0 0 12px rgba(237, 237, 237, 0.8);
+}
+
+.active {
+  -webkit-box-shadow: 0 0 12px rgba(237, 237, 237, 0.8);
+          box-shadow: 0 0 12px rgba(237, 237, 237, 0.8);
+}
+
+dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 22vw;
+  background-color: rgb(39, 47, 50);
+  -webkit-animation: fade-out 0.7s ease-out;
+          animation: fade-out 0.7s ease-out;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+dialog[open] {
+  -webkit-animation: fade-in 0.7s ease-out;
+          animation: fade-in 0.7s ease-out;
+}
+
+dialog[open]::-webkit-backdrop {
+  background: rgba(0, 0, 0, 0.5) !important;
+  -webkit-animation: backdrop-fade-in 0.7s ease-out forwards;
+          animation: backdrop-fade-in 0.7s ease-out forwards;
+}
+
+dialog[open]::backdrop {
+  background: rgba(0, 0, 0, 0.5) !important;
+  -webkit-animation: backdrop-fade-in 0.7s ease-out forwards;
+          animation: backdrop-fade-in 0.7s ease-out forwards;
+}
+
+.modal-pause__cont,
+.modal-game-over__cont {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.modal-pause__title,
+.modal-game-over__title {
+  font-size: 30px;
+  margin-bottom: 4vh;
+}
+
+.modal-pause__title {
+  color: rgb(105, 213, 31);
+}
+
+.modal-game-over__title {
+  color: rgb(252, 69, 61);
+}
+
+.modal-game-over__result,
+.modal-game-over__best-result {
+  color: rgb(105, 213, 31);
+}
+
+.modal-game-over__result {
+  margin-bottom: 2vh;
+}
+
+.modal-game-over__best-result {
+  margin-bottom: 4vh;
+}
+
+.modal-pause__img {
+  width: 80px;
+  margin-bottom: 2vh;
+}
+
+.modal-pause__continue-btn {
+  background-color: rgb(105, 213, 31);
+}
+
+.modal-game-over__restart-btn {
+  background-color: rgb(241, 130, 26);
+}
+
+/* Animation keyframes */
+@-webkit-keyframes fade-in {
+  0% {
+    opacity: 0;
+    -webkit-transform: scaleY(0), translate(-50%, -50%);
+            transform: scaleY(0), translate(-50%, -50%);
+    display: none;
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scaleY(1), translate(-50%, -50%);
+            transform: scaleY(1), translate(-50%, -50%);
+    display: block;
+  }
+}
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    -webkit-transform: scaleY(0), translate(-50%, -50%);
+            transform: scaleY(0), translate(-50%, -50%);
+    display: none;
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scaleY(1), translate(-50%, -50%);
+            transform: scaleY(1), translate(-50%, -50%);
+    display: block;
+  }
+}
+@-webkit-keyframes fade-out {
+  0% {
+    opacity: 1;
+    -webkit-transform: scaleY(1), translate(-50%, -50%);
+            transform: scaleY(1), translate(-50%, -50%);
+    display: block;
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: scaleY(0), translate(-50%, -50%);
+            transform: scaleY(0), translate(-50%, -50%);
+    display: none;
+  }
+}
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+    -webkit-transform: scaleY(1), translate(-50%, -50%);
+            transform: scaleY(1), translate(-50%, -50%);
+    display: block;
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: scaleY(0), translate(-50%, -50%);
+            transform: scaleY(0), translate(-50%, -50%);
+    display: none;
+  }
+}
+@-webkit-keyframes backdrop-fade-in {
+  0% {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  100% {
+    background-color: rgba(0, 0, 0, 0.25);
+  }
+}
+@keyframes backdrop-fade-in {
+  0% {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  100% {
+    background-color: rgba(0, 0, 0, 0.25);
+  }
+}
+body,
+button {
+  font-family: system-ui;
 }
 
 .logo {
   width: 18vw;
+  margin-bottom: 8vh;
 }
 
-.modal {
-  font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
-}
-
-.modal__overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+.game-level {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
-.modal__container {
-  background-color: rgb(39, 47, 50);
-  padding: 30px;
-  max-width: 500px;
-  max-height: 100vh;
-  border-radius: 4px;
-  overflow-y: auto;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+.button-level + .button-level {
+  margin-top: 2vh;
 }
 
-.modal__header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+.btn-easy {
+  background-color: rgb(105, 213, 31);
 }
 
-.modal__title {
-  margin-top: 0;
-  margin-bottom: 0;
-  font-weight: 600;
-  font-size: 1.25rem;
-  line-height: 1.25;
-  color: rgb(105, 213, 31);
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+.btn-medium {
+  background-color: rgb(251, 194, 16);
 }
 
-.modal__close {
-  background: transparent;
-  border: 0;
-}
-
-.modal__header .modal__close:before {
-  content: "✕";
-}
-
-.modal__content {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  line-height: 1.5;
-  color: rgb(237, 237, 237);
-}
-
-.modal__btn {
-  font-size: 0.875rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  background-color: rgb(42, 141, 234);
-  color: rgba(0, 0, 0, 0.8);
-  border-radius: 24px;
-  border-style: none;
-  border-width: 0;
-  cursor: pointer;
-  -webkit-appearance: button;
-  text-transform: none;
-  overflow: visible;
-  line-height: 1.15;
-  margin: 0;
-  will-change: transform;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  transition: -webkit-transform 0.25s ease-out;
-  -webkit-transition: -webkit-transform 0.25s ease-out;
-  transition: transform 0.25s ease-out;
-  transition: transform 0.25s ease-out, -webkit-transform 0.25s ease-out;
-}
-
-.modal__btn:focus,
-.modal__btn:hover {
-  -webkit-transform: scale(1.05);
-  transform: scale(1.05);
-}
-
-.modal__btn-primary {
-  background-color: #00449e;
-  color: #fff;
-}
-
-/**************************\
-  Demo Animation Style
-\**************************/
-@-webkit-keyframes mmfadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes mmfadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@-webkit-keyframes mmfadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-@keyframes mmfadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-@-webkit-keyframes mmslideIn {
-  from {
-    -webkit-transform: translateY(15%);
-            transform: translateY(15%);
-  }
-  to {
-    -webkit-transform: translateY(0);
-            transform: translateY(0);
-  }
-}
-@keyframes mmslideIn {
-  from {
-    -webkit-transform: translateY(15%);
-            transform: translateY(15%);
-  }
-  to {
-    -webkit-transform: translateY(0);
-            transform: translateY(0);
-  }
-}
-@-webkit-keyframes mmslideOut {
-  from {
-    -webkit-transform: translateY(0);
-            transform: translateY(0);
-  }
-  to {
-    -webkit-transform: translateY(-10%);
-            transform: translateY(-10%);
-  }
-}
-@keyframes mmslideOut {
-  from {
-    -webkit-transform: translateY(0);
-            transform: translateY(0);
-  }
-  to {
-    -webkit-transform: translateY(-10%);
-            transform: translateY(-10%);
-  }
-}
-.micromodal-slide {
-  display: none;
-}
-
-.micromodal-slide.is-open {
-  display: block;
-}
-
-.micromodal-slide[aria-hidden=false] .modal__overlay {
-  -webkit-animation: mmfadeIn 0.3s cubic-bezier(0, 0, 0.2, 1);
-          animation: mmfadeIn 0.3s cubic-bezier(0, 0, 0.2, 1);
-}
-
-.micromodal-slide[aria-hidden=false] .modal__container {
-  -webkit-animation: mmslideIn 0.3s cubic-bezier(0, 0, 0.2, 1);
-          animation: mmslideIn 0.3s cubic-bezier(0, 0, 0.2, 1);
-}
-
-.micromodal-slide[aria-hidden=true] .modal__overlay {
-  -webkit-animation: mmfadeOut 0.3s cubic-bezier(0, 0, 0.2, 1);
-          animation: mmfadeOut 0.3s cubic-bezier(0, 0, 0.2, 1);
-}
-
-.micromodal-slide[aria-hidden=true] .modal__container {
-  -webkit-animation: mmslideOut 0.3s cubic-bezier(0, 0, 0.2, 1);
-          animation: mmslideOut 0.3s cubic-bezier(0, 0, 0.2, 1);
-}
-
-.micromodal-slide .modal__container,
-.micromodal-slide .modal__overlay {
-  will-change: transform;
+.btn-hard {
+  background-color: rgb(252, 69, 61);
 }
 
 .tetris-field {
@@ -357,31 +346,8 @@ body {
   }
 }
 
-.game-level {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  margin-bottom: 4vh;
-}
-
-.button-level + .button-level {
-  margin-top: 2vh;
-}
-
-.btn-easy {
-  background-color: rgb(105, 213, 31);
-}
-
-.btn-medium {
-  background-color: rgb(251, 194, 16);
-}
-
-.btn-hard {
-  background-color: rgb(252, 69, 61);
+.score {
+  margin-bottom: 1vh;
 }
 
 .game-state {
@@ -398,12 +364,12 @@ body {
   margin-top: 2vh;
 }
 
-.btn-start {
-  background-color: rgb(240, 50, 180);
+.btn-pause {
+  background-color: rgb(42, 141, 234);
 }
 
 .btn-restart {
-  background: rgb(116, 25, 235);
+  background: rgb(251, 194, 16);
 }
 
 .btn-rotate {
@@ -428,7 +394,7 @@ body {
 }
 
 .btn-rotate {
-  background-color: rgb(42, 141, 234);
+  background-color: rgb(105, 213, 31);
 }
 
 .btn-left {
@@ -436,7 +402,7 @@ body {
 }
 
 .btn-down {
-  background-color: rgb(105, 213, 31);
+  background-color: rgb(116, 25, 235);
 }
 
 .btn-right {

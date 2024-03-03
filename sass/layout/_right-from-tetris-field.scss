@@ -32,28 +32,8 @@
     }
 }
 
-
-
-.game-level {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 4vh;
-}
-
-.button-level+.button-level {
-    margin-top: 2vh;
-}
-
-.btn-easy {
-    background-color: rgb(105, 213, 31);
-}
-
-.btn-medium {
-    background-color: rgb(251, 194, 16);
-}
-
-.btn-hard {
-    background-color: rgb(252, 69, 61);
+.score {
+    margin-bottom: 1vh;
 }
 
 
@@ -71,12 +51,12 @@
     }
 }
 
-.btn-start {
-    background-color: rgb(240, 50, 180);
+.btn-pause {
+    background-color: rgb(42, 141, 234);
 }
 
 .btn-restart {
-    background: rgb(116, 25, 235);
+    background: rgb(251, 194, 16);
 }
 
 
@@ -104,7 +84,7 @@
 }
 
 .btn-rotate {
-    background-color: rgb(42, 141, 234);
+    background-color: rgb(105, 213, 31);
 }
 
 .btn-left {
@@ -112,7 +92,7 @@
 }
 
 .btn-down {
-    background-color: rgb(105, 213, 31);
+    background-color: rgb(116, 25, 235);
 }
 
 .btn-right {
