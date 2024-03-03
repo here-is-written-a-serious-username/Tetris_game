@@ -13,24 +13,24 @@ let isGameOver = false;
 let isPaused = false;
 let cells;
 const BEST_RESULT_KEY = 'BestResult';
-// let bestResult;
 let bestResult = {
     value: 0,
     name: "",
 }
 
-
 const playFieldElem = document.querySelector('.tetris-field');
 const scoreElem = document.querySelector('.score-value');
 const bestResElem = document.querySelector('.best-result-value');
+
 const modalScoreElem = document.querySelector('.modal-game-over__result-value')
 const modalbestResElem = document.querySelector('.modal-game-over__best-result-value')
-
 const modalPause = document.getElementById("modal-pause");
 const continueBtn = document.querySelector(".modal-pause__continue-btn");
-
 const modalGameOver = document.getElementById("modal-game-over");
 const modalRestartBtn = document.querySelector(".modal-game-over__restart-btn");
+
+const formFieldElem = document.querySelector(".form__field")
+const inputElem = document.querySelector(".form__input")
 
 document.addEventListener('keydown', onKeyDown);
 continueBtn.addEventListener("click", onContinueBtnClick);
@@ -57,9 +57,7 @@ modalRestartBtn.addEventListener("click", onModalRestartBtnClick);
     btnControlEl.forEach(btn => {
         btn.addEventListener('click', onBtnControlClick);
     });
-
 })();
-
 
 init();
 
@@ -67,8 +65,7 @@ function init() {
     score = 0;
     scoreElem.innerHTML = 0;
     getStoredData();
-    bestResElem.innerHTML = bestResult;
-
+    bestResElem.innerHTML = bestResult.value;
     isGameOver = false;
     generatePlayField();
     generateTetromino();
@@ -320,9 +317,9 @@ function moveDown() {
 function gameOver() {
     stopLoop();
     modalScoreElem.innerHTML = score;
-    modalbestResElem.innerHTML = bestResult;
+    modalbestResElem.innerHTML = bestResult.value + ' ' + bestResult.name;
+    isInputShow();
     modalGameOver.showModal();
-    bestResultCounter();
 };
 
 function startLoop() {
@@ -412,7 +409,9 @@ function onContinueBtnClick() {
 
 function onModalRestartBtnClick() {
     modalGameOver.close();
+    bestResultSaver();
     restartGame();
+    formFieldElem.style.display = 'none';
 }
 
 function restartGame() {
@@ -452,10 +451,19 @@ function hasCollisions(row, column) {
 };
 
 // вираховування найкращого результату гри
-function bestResultCounter() {
-    if (score > bestResult) {
-        bestResult = score;
+function bestResultSaver() {
+    if (score > bestResult.value) {
+        bestResult.value = score;
+        bestResult.name = inputElem.value || 'anonymous';
         localStorage.setItem(BEST_RESULT_KEY, JSON.stringify(bestResult));
+    }
+    inputElem.value = '';
+}
+
+// чи показувати поле для введення ім’я гравця з найкращим результатом
+function isInputShow() {
+    if (score > bestResult.value) {
+        formFieldElem.style.display = 'block';
     }
 }
 
@@ -463,8 +471,10 @@ function bestResultCounter() {
 function getStoredData() {
     const storedData = JSON.parse(localStorage.getItem(BEST_RESULT_KEY));
     if (storedData === null) {
-        bestResult = 0;
+        bestResult.value = 0;
+        bestResult.name = ' ';
     } else {
-        bestResult = storedData;
+        bestResult.value = storedData.value;
+        bestResult.name = storedData.name;
     }
 }

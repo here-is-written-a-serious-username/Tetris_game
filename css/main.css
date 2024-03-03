@@ -141,7 +141,9 @@ dialog[open]::backdrop {
 
 .form__field {
   position: relative;
+  display: none;
   width: 100%;
+  margin-bottom: 4vh;
 }
 
 .form__input {
@@ -170,21 +172,21 @@ dialog[open]::backdrop {
 }
 .form__field:focus-within > .form__label {
   color: rgb(237, 237, 237);
-  -webkit-transform: translateY(-40px);
-          transform: translateY(-40px);
+  -webkit-transform: translateY(-42px);
+          transform: translateY(-42px);
 }
 .form__input:not(:-moz-placeholder-shown) + .form__label {
   color: rgb(237, 237, 237);
-  transform: translateY(-40px);
+  transform: translateY(-42px);
 }
 .form__input:not(:-ms-input-placeholder) + .form__label {
   color: rgb(237, 237, 237);
-  transform: translateY(-40px);
+  transform: translateY(-42px);
 }
 .form__input:not(:placeholder-shown) + .form__label {
   color: rgb(237, 237, 237);
-  -webkit-transform: translateY(-40px);
-          transform: translateY(-40px);
+  -webkit-transform: translateY(-42px);
+          transform: translateY(-42px);
 }
 
 /* Animation keyframes */

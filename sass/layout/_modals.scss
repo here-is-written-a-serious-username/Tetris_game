@@ -70,7 +70,9 @@ dialog[open]::backdrop {
 
 .form__field {
     position: relative;
+    display: none;
     width: 100%;
+    margin-bottom: 4vh;
 }
 
 .form__input {
@@ -96,12 +98,12 @@ dialog[open]::backdrop {
 
     .form__field:focus-within>& {
         color: rgb(237, 237, 237);
-        transform: translateY(-40px);
+        transform: translateY(-42px);
     }
 
     .form__input:not(:placeholder-shown)+& {
         color: rgb(237, 237, 237);
-        transform: translateY(-40px);
+        transform: translateY(-42px);
     }
 }
 
