@@ -13,7 +13,11 @@ let isGameOver = false;
 let isPaused = false;
 let cells;
 const BEST_RESULT_KEY = 'BestResult';
-let bestResult;
+// let bestResult;
+let bestResult = {
+    value: 0,
+    name: "",
+}
 
 
 const playFieldElem = document.querySelector('.tetris-field');
@@ -225,6 +229,10 @@ function rotate() {
 }
 
 function onKeyDown(e) {
+    if (e.key == ' ') {
+        e.preventDefault();
+        // якщо якась кнопка була клікнута тобто стає активна, то повторне відтворення дії цієї кнопки, натисненням пробілу буде заборонений для неї
+    }
     if (e.code == 'KeyP' && !isPaused) {
         togglePauseGame();
         modalPause.showModal();
