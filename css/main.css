@@ -40,6 +40,7 @@ body {
   transition: -webkit-box-shadow 0.3s ease;
   transition: box-shadow 0.3s ease;
   transition: box-shadow 0.3s ease, -webkit-box-shadow 0.3s ease;
+  font-size: 14px;
 }
 
 .button:hover {
@@ -280,7 +281,7 @@ button {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  margin-bottom: 4vh;
+  margin-bottom: 6vh;
 }
 
 .button-level + .button-level {
@@ -299,9 +300,19 @@ button {
   background-color: rgb(252, 69, 61);
 }
 
-.btn-mute {
+.button-game-state {
   width: 100%;
-  background-color: rgb(237, 237, 237);
+}
+.button-game-state + .button-game-state {
+  margin-top: 2vh;
+}
+
+.btn-pause {
+  background-color: rgb(42, 141, 234);
+}
+
+.btn-restart {
+  background: rgb(251, 194, 16);
 }
 
 .tetris-field {
@@ -417,26 +428,16 @@ button {
   margin-right: auto;
 }
 
-.game-state {
-  margin-bottom: 4vh;
+.btn-mute-wrap {
   -webkit-box-flex: 1;
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
+  margin-bottom: 2vh;
 }
 
-.button-game-state {
+.btn-mute {
   width: 100%;
-}
-.button-game-state + .button-game-state {
-  margin-top: 2vh;
-}
-
-.btn-pause {
-  background-color: rgb(42, 141, 234);
-}
-
-.btn-restart {
-  background: rgb(251, 194, 16);
+  background-color: rgb(237, 237, 237);
 }
 
 .btn-rotate {

@@ -50,26 +50,14 @@
 }
 
 
-
-.game-state {
-    margin-bottom: 4vh;
+.btn-mute-wrap {
     flex: 1 1 auto;
+    margin-bottom: 2vh;
 }
 
-.button-game-state {
+.btn-mute {
     width: 100%;
-
-    &+& {
-        margin-top: 2vh;
-    }
-}
-
-.btn-pause {
-    background-color: rgb(42, 141, 234);
-}
-
-.btn-restart {
-    background: rgb(251, 194, 16);
+    background-color: rgb(237, 237, 237);
 }
 
 

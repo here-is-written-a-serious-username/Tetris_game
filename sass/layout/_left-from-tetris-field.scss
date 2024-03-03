@@ -6,7 +6,7 @@
 .game-level {
     display: flex;
     flex-direction: column;
-    margin-bottom: 4vh;
+    margin-bottom: 6vh;
 }
 
 .button-level+.button-level {
@@ -25,7 +25,21 @@
     background-color: rgb(252, 69, 61);
 }
 
-.btn-mute {
+// .game-state {
+// }
+
+.button-game-state {
     width: 100%;
-    background-color: rgb(237, 237, 237);
+
+    &+& {
+        margin-top: 2vh;
+    }
+}
+
+.btn-pause {
+    background-color: rgb(42, 141, 234);
+}
+
+.btn-restart {
+    background: rgb(251, 194, 16);
 }
