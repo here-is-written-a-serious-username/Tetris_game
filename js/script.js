@@ -395,6 +395,8 @@ function onBtnLevelClick(event) {
             TETROMINOES = TETROMINOES_MEDIUM;
             level = 'medium';
     };
+    // console.log(TETROMINO_NAMES)
+    // console.log(TETROMINOES)
     restartGame();
 };
 
