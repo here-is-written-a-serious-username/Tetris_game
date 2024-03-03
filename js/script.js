@@ -403,6 +403,7 @@ function onBtnGameStateClick(event) {
     switch (true) {
         case btn.classList.contains('btn-pause'):
             togglePauseGame();
+            startAudio.pause();
             modalPause.showModal();
             break;
         case btn.classList.contains('btn-restart'):
