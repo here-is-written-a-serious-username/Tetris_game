@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="icon" href="./img/tetris_logo-3.png" type="image/x-icon">
     <link rel="stylesheet" href="./css/main.min.css">
 
     <title>Tetris_game</title>
@@ -20,6 +21,7 @@
                 <button type="button" class="button button-level btn-medium active">Medium</button>
                 <button type="button" class="button button-level btn-hard">Hard</button>
             </div>
+            <button type="button" class="button btn-mute">Mute <span class="btn-mute-value">Off</span></button>
         </div>
 
         <div class="tetris-field">
@@ -31,7 +33,9 @@
                 <p class="best-result">Best result: <span class="best-result-value">0</span></p>
             </div>
 
-
+            <div class="next-tetro-wrap">
+                <img class="next-tetro-img" src="./img/field.jpg" alt="next tetro">
+            </div>
 
             <div class="game-state">
                 <button type="button" class="button button-game-state btn-pause">Pause</button>

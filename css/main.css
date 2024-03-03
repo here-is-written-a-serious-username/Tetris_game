@@ -280,6 +280,7 @@ button {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  margin-bottom: 4vh;
 }
 
 .button-level + .button-level {
@@ -296,6 +297,11 @@ button {
 
 .btn-hard {
   background-color: rgb(252, 69, 61);
+}
+
+.btn-mute {
+  width: 100%;
+  background-color: rgb(237, 237, 237);
 }
 
 .tetris-field {
@@ -364,7 +370,7 @@ button {
 .game-info {
   border: 6px solid rgb(155, 26, 241);
   border-radius: 28px;
-  padding: 2vw 4vw;
+  padding: 1.5vw 4vw;
   margin-bottom: 4vh;
 }
 
@@ -377,27 +383,38 @@ button {
 }
 @media screen and (max-width: 479px) {
   .game-info p {
-    font-size: 20px;
+    font-size: 18px;
   }
 }
 @media screen and (min-width: 480px) and (max-width: 767px) {
   .game-info p {
-    font-size: 24px;
+    font-size: 20px;
   }
 }
 @media screen and (min-width: 768px) and (max-width: 1199px) {
   .game-info p {
-    font-size: 28px;
+    font-size: 24px;
   }
 }
 @media screen and (min-width: 1200px) {
   .game-info p {
-    font-size: 32px;
+    font-size: 28px;
   }
 }
 
 .score {
   margin-bottom: 1vh;
+}
+
+.next-tetro-wrap {
+  margin-bottom: 4vh;
+}
+
+.next-tetro-img {
+  display: block;
+  width: min(20vh, 35vw);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .game-state {

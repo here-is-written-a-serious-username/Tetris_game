@@ -1,38 +1,45 @@
 import {
-    PLAYFIELD_COLUMNS, PLAYFIELD_ROWS, TETROMINOES_NAMES_LIGHT, TETROMINOES_NAMES_MEDIUM, TETROMINOES_NAMES_HARD,
-    TETROMINOES_LIGHT, TETROMINOES_MEDIUM, TETROMINOES_HARD,
+    PLAYFIELD_COLUMNS, PLAYFIELD_ROWS, TETROMINOES_NAMES_EASY, TETROMINOES_NAMES_MEDIUM, TETROMINOES_NAMES_HARD,
+    TETROMINOES_EASY, TETROMINOES_MEDIUM, TETROMINOES_HARD, BEST_RESULT_EASY_KEY, BEST_RESULT_MEDIUM_KEY, BEST_RESULT_HARD_KEY, MUTE_KEY
 } from "./constans.js"
+import { startAudio, gameOverAudio, rotateAudio, moveAudio, putAudio, deleteAudio } from "./constAudio.js";
+import {
+    playFieldElem, scoreElem, bestResElem, muteBtn, muteBtnValue, modalScoreElem, modalbestResElem, modalPause, continueBtn, modalGameOver, modalRestartBtn,
+    formFieldElem, inputElem, nextTetroImg
+} from "./constDOM.js";
 
 let TETROMINO_NAMES = TETROMINOES_NAMES_MEDIUM;
 let TETROMINOES = TETROMINOES_MEDIUM;
+let level = 'medium';
+let speed = 700;
 let playfield;
 let tetromino;
 let score = 0;
 let timedId = null;
 let isGameOver = false;
 let isPaused = false;
+let isMute = false;
 let cells;
-const BEST_RESULT_KEY = 'BestResult';
-let bestResult = {
+let nextTetrominoName = null;
+let bestResultСurrent = {
+    value: 0,
+    name: "",
+}
+let bestResultEasy = {
+    value: 0,
+    name: "",
+}
+let bestResultMedium = {
+    value: 0,
+    name: "",
+}
+let bestResultHard = {
     value: 0,
     name: "",
 }
 
-const playFieldElem = document.querySelector('.tetris-field');
-const scoreElem = document.querySelector('.score-value');
-const bestResElem = document.querySelector('.best-result-value');
-
-const modalScoreElem = document.querySelector('.modal-game-over__result-value')
-const modalbestResElem = document.querySelector('.modal-game-over__best-result-value')
-const modalPause = document.getElementById("modal-pause");
-const continueBtn = document.querySelector(".modal-pause__continue-btn");
-const modalGameOver = document.getElementById("modal-game-over");
-const modalRestartBtn = document.querySelector(".modal-game-over__restart-btn");
-
-const formFieldElem = document.querySelector(".form__field")
-const inputElem = document.querySelector(".form__input")
-
 document.addEventListener('keydown', onKeyDown);
+muteBtn.addEventListener("click", onMuteBtnClick);
 continueBtn.addEventListener("click", onContinueBtnClick);
 modalRestartBtn.addEventListener("click", onModalRestartBtnClick);
 
@@ -62,10 +69,12 @@ modalRestartBtn.addEventListener("click", onModalRestartBtnClick);
 init();
 
 function init() {
+    // при першому запуску гри мелодія може не грати, так як браузер можа заблокувати автовідтворення
     score = 0;
     scoreElem.innerHTML = 0;
     getStoredData();
-    bestResElem.innerHTML = bestResult.value;
+    bestResElem.innerHTML = bestResultСurrent.value;
+    if (!isMute) { startAudio.play(); }
     isGameOver = false;
     generatePlayField();
     generateTetromino();
@@ -110,7 +119,13 @@ function generatePlayField() {
 };
 
 function generateTetromino() {
-    const name = getRandomElement(TETROMINO_NAMES);
+    let name;
+    if (nextTetrominoName === null) {
+        name = getRandomElement(TETROMINO_NAMES);
+    } else {
+        name = nextTetrominoName;
+    }
+    // const name = getRandomElement(TETROMINO_NAMES);
     const matrix = TETROMINOES[name];
     const column = PLAYFIELD_COLUMNS / 2 - Math.floor(matrix.length / 2);
     const rowTetro = -2;
@@ -120,7 +135,14 @@ function generateTetromino() {
         row: rowTetro,
         column: column
     }
+    generateNextTetromino();
 };
+
+// генерує попередній перегляд наступної фігури, та зберігає її для рендеру на ігровому полі
+function generateNextTetromino() {
+    nextTetrominoName = getRandomElement(TETROMINO_NAMES);
+    nextTetroImg.src = `./img/${nextTetrominoName}.jpg`;
+}
 
 function placeTetromino() {
     const matrixSize = tetromino.matrix.length;
@@ -139,6 +161,7 @@ function placeTetromino() {
     removeFillRows(filledRows);
     generateTetromino();
     countScore(filledRows.length);
+    if (!isMute) { putAudio.play(); }
 };
 
 // згорання ліній
@@ -146,6 +169,8 @@ function removeFillRows(filledRows) {
     for (let i = 0; i < filledRows.length; i++) {
         const row = filledRows[i];
         dropRowsAbove(row);
+        if (!isMute) { deleteAudio.play(); }
+        speed -= 10;
     }
 };
 
@@ -153,7 +178,6 @@ function dropRowsAbove(rowDelete) {
     for (let row = rowDelete; row > 0; row--) {
         playfield[row] = playfield[row - 1];
     }
-
     playfield[0] = new Array(PLAYFIELD_COLUMNS).fill(0);
 };
 
@@ -221,6 +245,7 @@ function rotateTetromino() {
 }
 
 function rotate() {
+    if (!isMute) { rotateAudio.play(); }
     rotateTetromino();
     draw();
 }
@@ -249,6 +274,7 @@ function onKeyDown(e) {
                 rotate();
                 break;
             case 'ArrowDown':
+                if (!isMute) { moveAudio.play(); }
                 moveTetrominoDown();
                 break;
             case 'ArrowLeft':
@@ -290,6 +316,7 @@ function dropTetrominoDown() {
 };
 
 function moveTetrominoLeft() {
+    if (!isMute) { moveAudio.play(); }
     tetromino.column -= 1;
     if (!isValid()) {
         tetromino.column += 1;
@@ -297,6 +324,7 @@ function moveTetrominoLeft() {
 };
 
 function moveTetrominoRight() {
+    if (!isMute) { moveAudio.play(); }
     tetromino.column += 1;
     if (!isValid()) {
         tetromino.column -= 1;
@@ -315,16 +343,17 @@ function moveDown() {
 };
 
 function gameOver() {
+    if (!isMute) { gameOverAudio.play(); }
     stopLoop();
     modalScoreElem.innerHTML = score;
-    modalbestResElem.innerHTML = bestResult.value + ' ' + bestResult.name;
+    modalbestResElem.innerHTML = bestResultСurrent.value + ' ' + bestResultСurrent.name;
     isInputShow();
     modalGameOver.showModal();
 };
 
 function startLoop() {
     if (!timedId) {
-        timedId = setTimeout(() => { requestAnimationFrame(moveDown) }, 700)
+        timedId = setTimeout(() => { requestAnimationFrame(moveDown) }, speed)
     }
 };
 
@@ -347,20 +376,24 @@ function onBtnLevelClick(event) {
     const btn = event.currentTarget;
     switch (true) {
         case btn.classList.contains('btn-easy'):
-            TETROMINO_NAMES = [...TETROMINOES_NAMES_MEDIUM, ...TETROMINOES_NAMES_LIGHT];
-            TETROMINOES = { ...TETROMINOES_MEDIUM, ...TETROMINOES_LIGHT };
+            TETROMINO_NAMES = [...TETROMINOES_NAMES_MEDIUM, ...TETROMINOES_NAMES_EASY];
+            TETROMINOES = { ...TETROMINOES_MEDIUM, ...TETROMINOES_EASY };
+            level = 'easy';
             break;
         case btn.classList.contains('btn-medium'):
             TETROMINO_NAMES = TETROMINOES_NAMES_MEDIUM;
             TETROMINOES = TETROMINOES_MEDIUM;
+            level = 'medium';
             break;
         case btn.classList.contains('btn-hard'):
             TETROMINO_NAMES = [...TETROMINOES_NAMES_MEDIUM, ...TETROMINOES_NAMES_HARD];
             TETROMINOES = { ...TETROMINOES_MEDIUM, ...TETROMINOES_HARD };
+            level = 'hard';
             break;
         default:
             TETROMINO_NAMES = TETROMINOES_NAMES_MEDIUM;
             TETROMINOES = TETROMINOES_MEDIUM;
+            level = 'medium';
     };
     restartGame();
 };
@@ -389,6 +422,7 @@ function onBtnControlClick(event) {
                 moveTetrominoLeft();
                 break;
             case btn.classList.contains('btn-down'):
+                if (!isMute) { moveAudio.play(); }
                 moveTetrominoDown();
                 break;
             case btn.classList.contains('btn-right'):
@@ -450,31 +484,93 @@ function hasCollisions(row, column) {
         && playfield[tetromino.row + row]?.[tetromino.column + column];
 };
 
-// вираховування найкращого результату гри
+// вираховування та збереження найкращого результату гри
 function bestResultSaver() {
-    if (score > bestResult.value) {
-        bestResult.value = score;
-        bestResult.name = inputElem.value || 'anonymous';
-        localStorage.setItem(BEST_RESULT_KEY, JSON.stringify(bestResult));
+    if (score > bestResultСurrent.value) {
+        bestResultСurrent.value = score;
+        bestResultСurrent.name = inputElem.value || 'anonymous';
+        switch (level) {
+            case 'easy':
+                bestResultEasy.value = bestResultСurrent.value;
+                bestResultEasy.name = bestResultСurrent.name;
+                localStorage.setItem(BEST_RESULT_EASY_KEY, JSON.stringify(bestResultEasy));
+                break;
+            case 'medium':
+                bestResultMedium.value = bestResultСurrent.value;
+                bestResultMedium.name = bestResultСurrent.name;
+                localStorage.setItem(BEST_RESULT_MEDIUM_KEY, JSON.stringify(bestResultMedium));
+                break;
+            case 'hard':
+                bestResultHard.value = bestResultСurrent.value;
+                bestResultHard.name = bestResultСurrent.name;
+                localStorage.setItem(BEST_RESULT_HARD_KEY, JSON.stringify(bestResultHard));
+                break;
+        }
     }
     inputElem.value = '';
 }
 
-// чи показувати поле для введення ім’я гравця з найкращим результатом
+
+// чи показувати поле для введення імені гравця з найкращим результатом
 function isInputShow() {
-    if (score > bestResult.value) {
+    if (score > bestResultСurrent.value) {
         formFieldElem.style.display = 'block';
     }
 }
 
 // отримуємо найкращий результат з local Storage
 function getStoredData() {
-    const storedData = JSON.parse(localStorage.getItem(BEST_RESULT_KEY));
-    if (storedData === null) {
-        bestResult.value = 0;
-        bestResult.name = ' ';
-    } else {
-        bestResult.value = storedData.value;
-        bestResult.name = storedData.name;
+    let storedData;
+    switch (level) {
+        case 'easy':
+            storedData = JSON.parse(localStorage.getItem(BEST_RESULT_EASY_KEY));
+            break;
+        case 'medium':
+            storedData = JSON.parse(localStorage.getItem(BEST_RESULT_MEDIUM_KEY));
+            break;
+        case 'hard':
+            storedData = JSON.parse(localStorage.getItem(BEST_RESULT_HARD_KEY));
+            break;
     }
+
+    if (storedData === null) {
+        bestResultСurrent.value = 0;
+        bestResultСurrent.name = ' ';
+    } else {
+        bestResultСurrent.value = storedData.value;
+        bestResultСurrent.name = storedData.name;
+    }
+
+    const storedMute = JSON.parse(localStorage.getItem(MUTE_KEY));
+    if (storedMute === null) {
+        isMute = false;
+        muteBtnValue.innerHTML = 'Off';
+    } else {
+        isMute = storedMute;
+        if (isMute) {
+            muteBtnValue.innerHTML = 'On';
+        } else {
+            muteBtnValue.innerHTML = 'Off';
+        }
+    }
+
+}
+
+// перемикач значення "чи вімкнений звук"
+function onMuteBtnClick() {
+    isMute = !isMute;
+    if (isMute) {
+        muteBtnValue.innerHTML = 'On';
+        muteBtn.classList.add('active');
+        startAudio.pause();
+        gameOverAudio.pause();
+        rotateAudio.pause();
+        moveAudio.pause();
+        putAudio.pause();
+        deleteAudio.pause();
+    } else if (!isMute) {
+        muteBtnValue.innerHTML = 'Off';
+        muteBtn.classList.remove('active');
+    }
+    localStorage.setItem(MUTE_KEY, JSON.stringify(isMute));
 }

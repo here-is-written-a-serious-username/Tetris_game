@@ -6,6 +6,7 @@
 .game-level {
     display: flex;
     flex-direction: column;
+    margin-bottom: 4vh;
 }
 
 .button-level+.button-level {
@@ -22,4 +23,9 @@
 
 .btn-hard {
     background-color: rgb(252, 69, 61);
+}
+
+.btn-mute {
+    width: 100%;
+    background-color: rgb(237, 237, 237);
 }
